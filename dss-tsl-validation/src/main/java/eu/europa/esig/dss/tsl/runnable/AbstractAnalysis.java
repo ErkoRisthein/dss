@@ -77,8 +77,7 @@ public abstract class AbstractAnalysis  {
 			}
 			document = downloadResult.getDSSDocument();
 		} catch (Exception e) {
-			// wrapped exception
-			LOG.error(e.getMessage());
+			LOG.error("Cannot download the document", e);
 			cacheAccess.downloadError(e);
 		}
 		return document;
@@ -107,7 +106,7 @@ public abstract class AbstractAnalysis  {
 				LOTLParsingTask parsingTask = new LOTLParsingTask(document, source);
 				cacheAccess.update(parsingTask.get());
 			} catch (Exception e) {
-				LOG.error("Cannot parse the LOTL with the cache key '{}' : {}", source.getCacheKey().getKey(), e.getMessage());
+				LOG.error("Cannot parse the LOTL with the cache key '{}' : {}", source.getCacheKey().getKey(), e.getMessage(), e);
 				cacheAccess.parsingError(e);
 			}
 		}
@@ -127,7 +126,7 @@ public abstract class AbstractAnalysis  {
 				TLValidatorTask validationTask = new TLValidatorTask(document, certificateSource);
 				cacheAccess.update(validationTask.get());
 			} catch (Exception e) {
-				LOG.error("Cannot validate the TL/LOTL with the cache key '{}' : {}", cacheAccess.getCacheKey().getKey(), e.getMessage());
+				LOG.error("Cannot validate the TL/LOTL with the cache key '{}' : {}", cacheAccess.getCacheKey().getKey(), e.getMessage(), e);
 				cacheAccess.validationError(e);
 			}
 		}
